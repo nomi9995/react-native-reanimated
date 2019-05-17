@@ -113,6 +113,34 @@ declare module 'react-native-reanimated' {
       toValue: Adaptable<number>;
     }
 
+    interface SpringConfigWithOrigamiTensionAndFriction {
+      tension: Adaptable<number>;
+      mass: Adaptable<number>;
+      friction: Adaptable<number>;
+      overshootClamping: Adaptable<number> | boolean;
+      restSpeedThreshold: Adaptable<number>;
+      restDisplacementThreshold: Adaptable<number>;
+      toValue: Adaptable<number>;
+    }
+
+    interface SpringConfigWithBouncinessAndSpeed {
+      bounciness: Adaptable<number>;
+      mass: Adaptable<number>;
+      speed: Adaptable<number>;
+      overshootClamping: Adaptable<number> | boolean;
+      restSpeedThreshold: Adaptable<number>;
+      restDisplacementThreshold: Adaptable<number>;
+      toValue: Adaptable<number>;
+    }
+
+    type SpringUtils =  {
+      makeDefaultConfig: () => SpringConfig;
+      makeConfigFromBouncinessAndSpeed: (prevConfig: SpringConfigWithBouncinessAndSpeed) => SpringConfig;
+      makeConfigFromOrigamiTensionAndFriction: (prevConfig: SpringConfigWithOrigamiTensionAndFriction) => SpringConfig
+    }
+
+    export const SpringUtils: SpringUtils
+
     type AnimateStyle<S extends object> = {
       [K in keyof S]: S[K] extends ReadonlyArray<any>
         ? ReadonlyArray<AnimateStyle<S[K][0]>>
@@ -192,9 +220,9 @@ declare module 'react-native-reanimated' {
       sourceNode: Adaptable<number>,
     ): AnimatedNode<number>;
     export function concat(
-      a: AnimatedNode<string>,
-      b: AnimatedNode<string>,
-      ...others: AnimatedNode<string>[],
+      a: Adaptable<string> | Adaptable<number>,
+      b: Adaptable<string> | Adaptable<number>,
+      ...others: Array<Adaptable<string> | Adaptable<number>>,
     ): AnimatedNode<string>;
     export function cond(
       conditionNode: Adaptable<number>,
